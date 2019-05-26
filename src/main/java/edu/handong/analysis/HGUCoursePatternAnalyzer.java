@@ -7,8 +7,8 @@ import java.util.TreeMap;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
-import edu.handong.analysise.utils.NotEnoughArgumentException;
-import edu.handong.analysise.utils.Utils;
+import edu.handong.analysis.utils.NotEnoughArgumentException;
+import edu.handong.analysis.utils.Utils;
 
 public class HGUCoursePatternAnalyzer {
 
@@ -47,7 +47,8 @@ public class HGUCoursePatternAnalyzer {
 	}
 	
 	/**
-	 * This method create HashMap<String,Student> from the data csv file. Key is a student id and the corresponding object is an instance of Student.
+	 * This method create HashMap<String,Student> from the data csv file.
+	 * Key is a student id and the corresponding object is an instance of Student.
 	 * The Student instance have all the Course instances taken by the student.
 	 * @param lines
 	 * @return
@@ -55,9 +56,35 @@ public class HGUCoursePatternAnalyzer {
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
 		
 		// TODO: Implement this method
+		//course 생성 
 		
-		return null; // do not forget to return a proper variable.
+		students = new HashMap<String, Student>();
+		Course aCourse = new Course(lines.get(0));
+		
+		Student student1 = new Student(aCourse.getStudentId());
+		
+		for(String line : lines) {
+			
+			aCourse = new Course(line); //처음 비교할 게 없을 때에는 생성 // 첫번째 꺼만 받아오는함수 .get(0)
+			
+			if(student1.getStudentId().equals(aCourse.getStudentId())){
+				
+				student1.addCourse(aCourse);
+				//(String에는 StudentId) (Student에는 Student instance들이 들어간다.)
+				students.put(student1.getStudentId(),student1); 
+				
+			}else {
+				student1 = new Student(aCourse.getStudentId());
+				student1.addCourse(aCourse);
+			}
+			
+			
+		}
+				
+		return students;
 	}
+	
+	
 
 	/**
 	 * This method generate the number of courses taken by a student in each semester. The result file look like this:
@@ -75,7 +102,29 @@ public class HGUCoursePatternAnalyzer {
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		
 		// TODO: Implement this method
+				
+		ArrayList <String> fin = new ArrayList<String>(); 
 		
-		return null; // do not forget to return a proper variable.
+		String first , last;
+		fin.add("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester");
+		
+		for (Student sortfile :sortedStudents.values()) {
+			first = sortfile.getStudentId();
+			first += "," + Integer.toString(sortfile.getSemestersByYearAndSemester().size());
+			
+			for(int i=1 ; i<= sortfile.getSemestersByYearAndSemester().size();i++) {
+				last = ",";
+				last += Integer.toString(i);
+				last += ",";
+				last += Integer.toString(sortfile.getNumCourseInNthSemester(i));
+				fin.add(first+last);
+			
+			}
+
+		}
+
+
+		
+		return fin; // do not forget to return a proper variable.
 	}
 }
