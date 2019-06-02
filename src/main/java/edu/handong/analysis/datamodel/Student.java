@@ -2,6 +2,7 @@ package edu.handong.analysis.datamodel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+//import edu.handong.analysis.datamodel.Course;
 
 
 public class Student {
@@ -44,6 +45,8 @@ public class Student {
 		//순차적 학기 번호를 넣으면  (3)
 		//해당 학기의 들은 과목의 개수를 돌려줍니다. (3학기에 들었던 과목의 개수)
 		//앞의 hashmap에서 3을 입력하면 해당 학생이 2002-1학기에 들은 과목의 개수를 돌려줍니다
+
+		//hash map의 사이즈 만큼 돌려서 count를 리턴 해라
 		
 		int count=0;
 		String yearSemester=null;
@@ -53,7 +56,6 @@ public class Student {
 				yearSemester = one;
 				break;
 			}
-			
 		}
 		
 		for(Course c : coursesTaken) {
@@ -65,8 +67,38 @@ public class Student {
 		return count;
 	}
 	
+	public boolean year(String y) {
+		
+		String yearSemester = y;
+		
+		for(Course c : coursesTaken) {
+			if(c.getyearTaken().equals(yearSemester)) 
+				return true;
+		}
+		return false;
+	}
 
+	public int course(String y , String code) {
+		
+		for(Course c : coursesTaken) {
+			if(c.getyearTaken().equals(y) && c.getCourseCode().equals(code)) 
+				return 1;
+		}
+		
+		return 0;
+	}
+	
+	public String courseName(String name) {
+		
+		
+		for(Course c : coursesTaken) {
+			if(c.getCourseCode().equals(name)) 
+				return c.getCourseName();
+		}
+		return null;
+	}
 }
+
 
 
 

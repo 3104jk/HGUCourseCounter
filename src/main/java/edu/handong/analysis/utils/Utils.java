@@ -1,37 +1,36 @@
 package edu.handong.analysis.utils;
 
 import java.util.ArrayList;
-import java.io.IOException;
 import java.io.*;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import java.io.IOException;
+
 
 
 public class Utils {
 
-	public static ArrayList<String> getLines(String file,boolean removeHeader) {
+	public static ArrayList<CSVRecord> getLines(String file,boolean removeHeader) {
 		//file에 data path가 저장되어 있음
 
-		ArrayList<String> lines = new ArrayList<String>();
-		File data = new File(file);
+		ArrayList<CSVRecord> lines = new ArrayList<CSVRecord>();
 
-		//무슨 일을 할까? 파일이라는 instance에 filepath를 넣어준다. 
-
-		try{
-			FileReader fr = new FileReader(data);
-			BufferedReader br = new BufferedReader(fr);
-
-			String line = null;
-
-			while((line = br.readLine()) != null) {
-				lines.add(line);
+		try {
+			CSVParser parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT.withHeader()); 
+			
+			for(CSVRecord record : parser) { 
+				lines.add(record);
+				
 			}
-
 			if(removeHeader == true)
 				lines.remove(0);
 
-			br.close();
+			parser.close();
 
 		}catch (FileNotFoundException e) {
-			System.out.println("Not exist file" + file);
+			System.out.println("The file path does not exist. Please check your CLI argument!");
 			System.exit(0);
 
 		}catch(IOException e){
