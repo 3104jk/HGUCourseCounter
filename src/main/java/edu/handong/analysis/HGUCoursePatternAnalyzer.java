@@ -315,7 +315,11 @@ public class HGUCoursePatternAnalyzer {
 							+ ","  
 							+ c 
 							+ "," 
-							+Integer.toString(count) 
+							+Integer.toString(count)
+							+ "," 
+							+allstudent
+							+","
+							+count
 							+ Double.toString(rateFormat)
 							+"%";
 					fin.add(line);
