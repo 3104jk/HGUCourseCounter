@@ -290,16 +290,18 @@ public class HGUCoursePatternAnalyzer {
 		for (int i = s ; i<= e ; i++) {
 			for(int j=1 ; j<=4 ; j++) {
 				String year= Integer.toString(i) +"-"+ Integer.toString(j);
+
 				count = 0 ;
 				allstudent = 0;
 
 				for(Student a : sortedStudents.values()) {
 					if(a.year(year)) {
 						allstudent++;
-						count += a.course(year,course);
-
-						if(c == null) {
-							c = a.courseName(course);
+						if(a.course(course)) {
+							count++;
+							if(c == null) {
+								c = a.courseName(course);
+							}
 						}
 					}
 				}
@@ -307,21 +309,21 @@ public class HGUCoursePatternAnalyzer {
 				if(count != 0) {
 					float ratio = (float)count/(float)allstudent;
 					double rateFormat = Math.round(ratio*100); //소수점 1자리
+					
 					line = year.split("-")[0] 
 							+ "," 
 							+ year.split("-")[1] 
-							+ "," 
-							+ course 
-							+ ","  
-							+ c 
-							+ "," 
-							+Integer.toString(count)
-							+ "," 
-							+allstudent
-							+","
-							+count
-							+ Double.toString(rateFormat)
-							+"%";
+									+ "," 
+									+ course 
+									+ ","  
+									+ c 
+									+ "," 
+									+allstudent
+									+","
+									+count
+									+","
+									+ Double.toString(rateFormat)
+									+"%";
 					fin.add(line);
 				}
 			}

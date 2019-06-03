@@ -78,14 +78,14 @@ public class Student {
 		return false;
 	}
 
-	public int course(String y , String code) {
+	public boolean course(String code) {
 		
 		for(Course c : coursesTaken) {
-			if(c.getyearTaken().equals(y) && c.getCourseCode().equals(code)) 
-				return 1;
+			if(c.getCourseCode().equals(code)) 
+				return true;
 		}
 		
-		return 0;
+		return false;
 	}
 	
 	public String courseName(String name) {
